@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jasper's 8th Birthday Master Plan</title>
+  <!-- D3.js CDN -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: rgba(255, 255, 255, 0.06);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      
+      --color-primary: #38bdf8;
+      --color-secondary: #f472b6;
+      --color-june: #f59e0b; 
+      --color-june-glow: rgba(245, 158, 11, 0.15);
+      --color-july: #0ea5e9; 
+      --color-july-glow: rgba(14, 165, 233, 0.15);
+      
+      --shadow: 0 10px 30px rgba(0,0,0,0.3);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 5px;
+      background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    }
+
+    header { text-align: center; margin-bottom: 40px; }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 38px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    header p { color: var(--text-muted); font-size: 16px; }
+
+    .grid-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    
+    @media (max-width: 900px) {
+      .grid-layout { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+    }
+
+    .card-title i { color: var(--color-primary); }
+
+    /* Timeline */
+    .timeline { position: relative; padding-left: 30px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 6px; top: 0; bottom: 0;
+      width: 2px; background: rgba(255,255,255,0.1);
+    }
+    .timeline-item { position: relative; margin-bottom: 20px; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -30px; top: 5px;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--color-primary); border: 3px solid #0f172a;
+    }
+    .time { font-family: 'Outfit', sans-serif; font-weight: 700; color: #38bdf8; margin-bottom: 4px; font-size: 15px; }
+    .event-desc { font-size: 14px; color: var(--text-muted); }
+
+    /* Action Items */
+    .action-list { list-style: none; }
+    .action-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      margin-bottom: 12px; font-size: 14.5px;
+      padding: 12px; background: rgba(255,255,255,0.03);
+      border-radius: 8px; border: 1px solid rgba(255,255,255,0.02);
+    }
+    .action-list i { color: #f43f5e; margin-top: 3px; }
+    .action-list li.done i { color: #10b981; }
+
+    /* Details Panel */
+    .details-panel {
+      background: rgba(15, 23, 42, 0.25);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    /* Charts specific styles from chart.html */
+    .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .svg-container { width: 100%; height: 200px; position: relative; }
+    svg { width: 100%; height: 100%; overflow: visible; }
+    
+    .tooltip {
+      position: absolute; background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.1); padding: 12px 16px;
+      border-radius: 10px; font-size: 13px; color: #fff;
+      pointer-events: none; opacity: 0; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      transition: opacity 0.2s ease; z-index: 10; max-width: 250px; line-height: 1.4;
+    }
+    .tooltip-header { font-weight: 700; margin-bottom: 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 4px; }
+    .tooltip-list { list-style: none; }
+    .tooltip-list li { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 3px; }
+    .status-tag { font-weight: 600; font-size: 11px; text-transform: uppercase; padding: 1px 5px; border-radius: 4px; }
+    .status-pref { color: #10b981; background: rgba(16, 185, 129, 0.15); }
+    .status-yes { color: #38bdf8; background: rgba(56, 189, 248, 0.15); }
+    .status-cant { color: #ef4444; background: rgba(239, 68, 68, 0.15); }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1><i class="fa-solid fa-cake-candles" style="color: var(--color-secondary); margin-right: 10px;"></i> Jasper's 8th Birthday Master Plan</h1>
+      <p>Saturday, July 4, 2026 &bull; 1:30 PM - 7:00 PM &bull; Splashtacular Pool & Bounce House</p>
+    </header>
+
+    <div class="grid-layout">
+      <!-- Left Column -->
+      <div class="column">
+        <!-- Schedule -->
+        <div class="card" style="margin-bottom: 30px;">
+          <div class="card-title"><i class="fa-regular fa-clock"></i> Event Schedule</div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="time">1:30 PM</div>
+              <div class="event-desc">Arrival, quick safety rules, change into swimwear.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">1:45 PM - 5:30 PM</div>
+              <div class="event-desc">Open pool swim & bounce house play.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">5:30 PM</div>
+              <div class="event-desc">Pool exit; towel off and change into dry clothes.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">6:00 PM</div>
+              <div class="event-desc">Dinner (Home Eat Chinese Catering) served.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">6:30 PM</div>
+              <div class="event-desc">Birthday cake, candles, and singing.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="time">7:00 PM</div>
+              <div class="event-desc">Pick-up and distribute favors.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Items -->
+        <div class="card">
+          <div class="card-title"><i class="fa-solid fa-list-check"></i> Outstanding Action Items</div>
+          <ul class="action-list">
+            <li><i class="fa-regular fa-circle"></i> <div><strong>Send Official Invitations</strong><br><span style="color:var(--text-muted); font-size: 13px;">Evite noting 1:30 PM start and 6:00 PM dinner. (RSVP Deadline: June 28)</span></div></li>
+            <li><i class="fa-regular fa-circle"></i> <div><strong>Book the Bounce House</strong><br><span style="color:var(--text-muted); font-size: 13px;">Book Tropical Waterslide Combo from Golden Jumpers.</span></div></li>
+            <li><i class="fa-regular fa-circle"></i> <div><strong>Order Cake</strong><br><span style="color:var(--text-muted); font-size: 13px;">Order from local bakery for pickup.</span></div></li>
+            <li><i class="fa-regular fa-circle"></i> <div><strong>Confirm Catering</strong><br><span style="color:var(--text-muted); font-size: 13px;">Place pre-order with Home Eat.</span></div></li>
+            <li><i class="fa-regular fa-circle"></i> <div><strong>Confirm Pool Watcher</strong><br><span style="color:var(--text-muted); font-size: 13px;">Assign designated adults for 30-min shifts.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="column">
+        <!-- Guest Poll Charts -->
+        <div class="card">
+          <div class="card-title" style="justify-content: space-between;">
+            <div><i class="fa-solid fa-chart-pie"></i> Guest Poll Results</div>
+            <div style="font-size: 13px; font-weight: 500; background: rgba(14, 165, 233, 0.2); color: var(--color-july); padding: 4px 10px; border-radius: 20px;">Saturday, July 4 Locked In!</div>
+          </div>
+          <div class="charts-grid">
+            <div style="position: relative;">
+              <div style="font-size: 13px; font-weight: 600; text-align: center; margin-bottom: 5px; color: var(--text-muted);">Feasibility Score</div>
+              <div class="svg-container" id="score-chart-container"><div class="tooltip" id="score-tooltip"></div></div>
+            </div>
+            <div style="position: relative;">
+              <div style="font-size: 13px; font-weight: 600; text-align: center; margin-bottom: 5px; color: var(--text-muted);">Attending Kids</div>
+              <div class="svg-container" id="headcount-chart-container"><div class="tooltip" id="headcount-tooltip"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Budget & Vendors -->
+        <div class="details-panel">
+          <div>
+            <div class="card-title" style="font-size: 16px; margin-bottom: 12px;"><i class="fa-solid fa-wallet"></i> Budget Tracker</div>
+            <div style="font-size: 28px; font-family: 'Outfit'; font-weight: 800; color: #fff; margin-bottom: 5px;">$970<span style="font-size: 16px; color: var(--text-muted); font-weight: 500;">.00 est</span></div>
+            <div style="font-size: 14px; color: #10b981; margin-bottom: 12px; font-weight: 600;">$0.00 Spent So Far</div>
+            <ul style="list-style: none; font-size: 13px; color: var(--text-muted);">
+              <li style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Bounce House</span><span>$430</span></li>
+              <li style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Catering</span><span>$300</span></li>
+              <li style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>Cake</span><span>$60</span></li>
+              <li style="display: flex; justify-content: space-between;"><span>Decor & Misc</span><span>$180</span></li>
+            </ul>
+          </div>
+          <div>
+            <div class="card-title" style="font-size: 16px; margin-bottom: 12px;"><i class="fa-solid fa-store"></i> Selected Vendors</div>
+            <div style="font-size: 14px; margin-bottom: 8px;"><strong>Golden Jumpers</strong><br><span style="color:var(--text-muted); font-size: 13px;">Tropical Waterslide Combo ($360)</span></div>
+            <div style="font-size: 14px;"><strong>Home Eat</strong><br><span style="color:var(--text-muted); font-size: 13px;">Regional Chinese Catering (~$300)</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // D3.js Code ported from chart.html
+    const data = [
+      { date: "June 27", score: 10, headcount: 8, color: "var(--color-june)", glow: "var(--color-june-glow)" },
+      { date: "July 4", score: 13, headcount: 9, color: "var(--color-july)", glow: "var(--color-july-glow)" }
+    ];
+
+    const roster = [
+      { name: "Jasper", jun27: "Yes", jul4: "Yes" },
+      { name: "Max", jun27: "Can't", jul4: "Pref" },
+      { name: "Daniel", jun27: "Yes", jul4: "Pref" },
+      { name: "Frederick", jun27: "Pref", jul4: "Yes" },
+      { name: "Julian", jun27: "Yes", jul4: "Yes" },
+      { name: "Nathan", jun27: "Yes", jul4: "Yes" },
+      { name: "Rowan", jun27: "Pref", jul4: "Can't" },
+      { name: "Milo", jun27: "Yes", jul4: "Yes" },
+      { name: "Henry", jun27: "Yes", jul4: "Pref" },
+      { name: "Charles", jun27: "Can't", jul4: "Can't" },
+      { name: "Jaiden", jun27: "Can't", jul4: "Pref" }
+    ];
+
+    function createChart(containerId, valueKey, maxVal) {
+      const container = document.getElementById(containerId);
+      const tooltip = container.querySelector(".tooltip");
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      const margin = { top: 15, right: 10, bottom: 25, left: 25 };
+
+      const svg = d3.select(`#${containerId}`)
+        .append("svg")
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .attr("viewBox", `0 0 ${width} ${height}`)
+        .attr("preserveAspectRatio", "xMinYMin meet");
+
+      const x = d3.scaleBand().domain(data.map(d => d.date)).range([margin.left, width - margin.right]).padding(0.4);
+      const y = d3.scaleLinear().domain([0, maxVal]).range([height - margin.bottom, margin.top]);
+
+      svg.append("g").attr("class", "grid").attr("transform", `translate(0, ${height - margin.bottom})`).attr("opacity", 0.05).call(d3.axisBottom(x).tickSize(-height + margin.top + margin.bottom).tickFormat(""));
+      svg.append("g").attr("class", "grid").attr("transform", `translate(${margin.left}, 0)`).attr("opacity", 0.05).call(d3.axisLeft(y).ticks(4).tickSize(-width + margin.left + margin.right).tickFormat(""));
+
+      svg.append("g").attr("transform", `translate(0, ${height - margin.bottom})`).call(d3.axisBottom(x).tickSize(0)).attr("font-family", "Plus Jakarta Sans").attr("font-size", "11px").attr("color", "var(--text-muted)").selectAll("text").style("font-weight", "600").attr("dy", "10px");
+      svg.append("g").attr("transform", `translate(${margin.left}, 0)`).call(d3.axisLeft(y).ticks(4)).attr("font-family", "Plus Jakarta Sans").attr("font-size", "10px").attr("color", "var(--text-muted)");
+      svg.selectAll(".domain").remove();
+
+      svg.selectAll(".bar")
+        .data(data).enter().append("rect").attr("class", "bar")
+        .attr("x", d => x(d.date)).attr("y", height - margin.bottom).attr("width", x.bandwidth()).attr("height", 0)
+        .attr("rx", 4).attr("fill", d => d.color).attr("filter", d => `drop-shadow(0px 8px 16px ${d.glow})`)
+        .attr("cursor", "pointer")
+        .on("mouseover", function(event, d) {
+          d3.select(this).transition().duration(150).attr("opacity", 0.95).attr("y", y(d[valueKey]) - 4).attr("height", height - margin.bottom - y(d[valueKey]) + 4);
+          showTooltip(tooltip, d.date, valueKey);
+        })
+        .on("mousemove", function(event) {
+          const rect = container.getBoundingClientRect();
+          tooltip.style.left = `${event.clientX - rect.left + 15}px`;
+          tooltip.style.top = `${event.clientY - rect.top - 15}px`;
+        })
+        .on("mouseout", function(event, d) {
+          d3.select(this).transition().duration(150).attr("opacity", 1).attr("y", y(d[valueKey])).attr("height", height - margin.bottom - y(d[valueKey]));
+          tooltip.style.opacity = 0;
+        })
+        .transition().duration(800).delay((d, i) => i * 150).attr("y", d => y(d[valueKey])).attr("height", d => height - margin.bottom - y(d[valueKey]));
+
+      svg.selectAll(".val-label")
+        .data(data).enter().append("text").attr("class", "val-label")
+        .attr("x", d => x(d.date) + x.bandwidth() / 2).attr("y", height - margin.bottom - 10)
+        .attr("text-anchor", "middle").attr("fill", "#fff").attr("font-family", "Outfit").attr("font-size", "13px").attr("font-weight", "700")
+        .attr("opacity", 0).text(d => d[valueKey])
+        .transition().duration(800).delay((d, i) => i * 150).attr("y", d => y(d[valueKey]) - 6).attr("opacity", 1);
+    }
+
+    function showTooltip(tooltipEl, date, valueKey) {
+      const isJune = date === "June 27";
+      const key = isJune ? "jun27" : "jul4";
+      let html = `<div class="tooltip-header">${date} Breakdown</div><ul class="tooltip-list">`;
+      roster.forEach(guest => {
+        const status = guest[key];
+        const statusClass = status === "Pref" ? "status-pref" : (status === "Yes" ? "status-yes" : "status-cant");
+        html += `<li><span style="font-weight: 500;">${guest.name}</span><span class="status-tag ${statusClass}">${status}</span></li>`;
+      });
+      html += "</ul>";
+      tooltipEl.innerHTML = html;
+      tooltipEl.style.opacity = 1;
+    }
+
+    createChart("score-chart-container", "score", 20);
+    createChart("headcount-chart-container", "headcount", 12);
+  </script>
+</body>
+</html>
