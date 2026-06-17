@@ -355,8 +355,15 @@
       tooltipEl.style.opacity = 1;
     }
 
-    createChart("score-chart-container", "score", 20);
-    createChart("headcount-chart-container", "headcount", 12);
+    // Initialize charts after everything loads
+    window.onload = function() {
+      try {
+        createChart("score-chart-container", "score", 20);
+        createChart("headcount-chart-container", "headcount", 12);
+      } catch (e) {
+        console.error("Error loading D3 charts:", e);
+      }
+    };
   </script>
 </body>
 </html>
