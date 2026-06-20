@@ -1,0 +1,11 @@
+{
+  "name": "jasper-birthday-proxy",
+  "main": "src/index.js",
+  "compatibility_date": "2024-01-01",
+  "routes": [
+    {
+      "pattern": "thekuo.ai/jasper-8th-birthday*",
+      "zone_name": "thekuo.ai"
+    }
+  ]
+}
