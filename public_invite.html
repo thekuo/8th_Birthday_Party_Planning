@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jasper's 8th Birthday Party!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --bg-card: rgba(30, 41, 59, 0.7);
+      --border-card: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --color-primary: #0ea5e9; /* Sky Blue */
+      --color-accent: #f59e0b; /* Amber */
+      --color-green: #10b981; /* Emerald */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.1) 0px, transparent 50%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 24px;
+      padding: 40px 30px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(14, 165, 233, 0.15);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      color: var(--color-primary);
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 42px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #fff 30%, var(--color-primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 35px;
+    }
+
+    /* Event Details Grid */
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 35px;
+    }
+
+    .detail-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      text-align: left;
+    }
+
+    .detail-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(14, 165, 233, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary);
+      font-size: 20px;
+    }
+
+    .detail-info h3 {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .detail-info p {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    /* Note Banner */
+    .note-banner {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin-bottom: 35px;
+      display: flex;
+      gap: 15px;
+      text-align: left;
+      align-items: flex-start;
+    }
+
+    .note-banner i {
+      color: var(--color-accent);
+      font-size: 18px;
+      margin-top: 2px;
+    }
+
+    .note-banner p {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #fed7aa;
+    }
+
+    /* Timeline Section */
+    .timeline-section {
+      text-align: left;
+      margin-bottom: 35px;
+    }
+
+    .timeline-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .timeline-title i {
+      color: var(--color-primary);
+    }
+
+    .timeline {
+      position: relative;
+      border-left: 2px dashed rgba(255, 255, 255, 0.1);
+      margin-left: 10px;
+      padding-left: 20px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-marker {
+      position: absolute;
+      left: -27px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      border: 2px solid var(--bg-dark);
+    }
+
+    .timeline-time {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 2px;
+    }
+
+    .timeline-desc {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    /* CTA Button */
+    .btn-rsvp {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--color-primary) 0%, #0284c7 100%);
+      color: #fff;
+      text-decoration: none;
+      padding: 16px 32px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 16px;
+      box-shadow: 0 10px 15px -3px rgba(14, 165, 233, 0.4);
+      transition: all 0.2s ease;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-rsvp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 20px -3px rgba(14, 165, 233, 0.5);
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="badge"><i class="fa-solid fa-water"></i> Tropical Splash Theme</div>
+    <h1>Jasper's 8th Birthday</h1>
+    <p class="subtitle">Join us for a day of waterslides, games, and celebration!</p>
+
+    <div class="details-grid">
+      <div class="detail-card">
+        <div class="detail-icon"><i class="fa-solid fa-calendar-day"></i></div>
+        <div class="detail-info">
+          <h3>When</h3>
+          <p>Saturday, July 4 @ 1:30 PM - 7:00 PM</p>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-icon"><i class="fa-solid fa-location-dot"></i></div>
+        <div class="detail-info">
+          <h3>Where</h3>
+          <p>The Kuo Family Backyard</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="note-banner">
+      <i class="fa-solid fa-circle-info"></i>
+      <div>
+        <p><strong>Note for Parents:</strong> We have rented a Tropical Waterslide Combo! Please make sure kids bring a swimsuit, towel, and a dry change of clothes.</p>
+      </div>
+    </div>
+
+    <div class="timeline-section">
+      <div class="timeline-title"><i class="fa-solid fa-clock"></i> Schedule of Fun</div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-time">1:30 PM</div>
+          <div class="timeline-desc">Arrivals & Warm Welcome</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-time">2:00 PM</div>
+          <div class="timeline-desc">Water Activities & Tropical Waterslide Combo</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-time">4:30 PM</div>
+          <div class="timeline-desc">Cake Cutting & Ice Cream</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-time">5:00 PM</div>
+          <div class="timeline-desc">Piñata & Group Photos</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-time">6:00 PM</div>
+          <div class="timeline-desc">Regional Chinese Buffet Dinner</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-time">7:00 PM</div>
+          <div class="timeline-desc">Goodbyes & Pick-ups</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RSVP Button (points to placeholder or custom link) -->
+    <a href="mailto:james.p.kuo@gmail.com?subject=RSVP for Jasper's 8th Birthday" class="btn-rsvp">
+      <i class="fa-solid fa-envelope"></i> RSVP via Email
+    </a>
+
+    <div class="footer">
+      We look forward to celebrating with you!
+    </div>
+  </div>
+
+</body>
+</html>
