@@ -1,0 +1,10 @@
+{
+  "name": "birthday-party-plan-8th",
+  "pages_build_output_dir": "dist",
+  "kv_namespaces": [
+    {
+      "binding": "PARTY_STATE",
+      "id": "6ec3d7df179c4e7c82c6067c1fb803e0"
+    }
+  ]
+}
